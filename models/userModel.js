@@ -1,4 +1,4 @@
-const db = require('../db');
+
 
 exports.createUser = (name, email, hashedPassword, callback) => {
   const sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
