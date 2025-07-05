@@ -4,12 +4,15 @@ require('dotenv').config();
 
 const app = express();
 
-// ✅ Allow only your frontend domain
+// ✅ Apply CORS globally
 app.use(cors({
   origin: 'https://skillsnap-frontend-deploy.vercel.app',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'OPTIONS'],
   credentials: true
 }));
+
+// ✅ Handle preflight requests manually
+app.options('*', cors()); // ← This is what you're missing
 
 app.use(express.json());
 
@@ -24,7 +27,7 @@ const aiRoutes = require('./routes/ai');
 app.use('/api/auth', authRoutes);
 app.use('/api/ai', aiRoutes);
 
-// ✅ Server start
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
